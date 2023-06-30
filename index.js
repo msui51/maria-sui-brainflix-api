@@ -1,10 +1,11 @@
 const express = require("express")
 const app = express();
 const cors = require("cors");
-const fs = require("fs");
+const videoRoutes = require("./routes/videos");
 
 app.use(cors());
-
+app.use(express.json());
+app.use("/videos", videoRoutes);
 
 
 app.listen(5000,()=>{
