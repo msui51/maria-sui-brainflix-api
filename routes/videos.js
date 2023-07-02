@@ -24,6 +24,35 @@ router.get('/:id', (req,res)=>{
     });
 });
 
+router.post("/", (req, res)=>{
+    fs.readFile("./data/video-details.json", "utf-8", (err,data)=>{
+        if(err){
+            return console.log("err");
+        }
+        const videoList=JSON.parse(data);
+        const newVideo={
+            id: uuidv4(),
+            title: req.body.title,
+            channel: "Snowball",
+            image: "https://i.imgur.com/l2Xfgpl.jpg",
+            description: req.body.description,
+            views: 0,
+            likes: 0,
+            duration: "4:01",
+            video: "https://project-2-api.herokuapp.com/stream",
+            timestamp: Date.now(),
+            comments:[]
+        }
+        videoList.push(newVideo);
+        fs.writeFile("./data/video-details.json",JSON.stringify(videoList),(err)=>{
+            if(err){
+                return console.log("error");
+            }
+            res.send("new video saved");
+        })
+    })
+})
+
 router.post("/:id/comments", (req,res)=>{
     fs.readFile("./data/video-details.json", "utf-8", (err,data)=>{
         if(err){
