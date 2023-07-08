@@ -24,6 +24,18 @@ router.get('/:id', (req,res)=>{
     });
 });
 
+router.get("/:id/comments", (req,res)=>{
+    fs.readFile("./data/video-details.json", "utf-8",(err,data)=>{
+        if(err){
+            console.log("err");
+        }
+        const videos=JSON.parse(data);
+        const singleVideo=videos.find((video)=>video.id==req.params.id);
+        const comments = singleVideo.comments;
+        res.json(comments);
+    })
+})
+
 router.post("/", (req, res)=>{
     fs.readFile("./data/video-details.json", "utf-8", (err,data)=>{
         if(err){
@@ -34,7 +46,7 @@ router.post("/", (req, res)=>{
             id: uuidv4(),
             title: req.body.title,
             channel: "Snowball",
-            image: "https://i.imgur.com/l2Xfgpl.jpg",
+            image: "/image9.jpeg",
             description: req.body.description,
             views: 0,
             likes: 0,
@@ -52,6 +64,7 @@ router.post("/", (req, res)=>{
         })
     })
 })
+
 
 router.post("/:id/comments", (req,res)=>{
     fs.readFile("./data/video-details.json", "utf-8", (err,data)=>{
@@ -75,9 +88,11 @@ router.post("/:id/comments", (req,res)=>{
             if(err){
                 return res.send("err");
             }
-            res.send("comment saved")
+            res.send("game saved")
         });
     });
 });
+
+
 
 module.exports = router;
